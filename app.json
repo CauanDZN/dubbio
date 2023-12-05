@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "dubbio",
+    "name": "Dubbio",
     "slug": "dubbio",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.cauandzn.dubbio"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a800161f-746e-4356-b016-6a893cf3acbd"
+      }
     }
   }
 }
