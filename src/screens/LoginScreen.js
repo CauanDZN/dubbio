@@ -23,7 +23,13 @@ export default function LoginScreen() {
     },
     headerContainer: {
       flexDirection: 'row',
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
+    },
+    headerText: {
+      fontFamily: 'BebasNeue-Regular',
+      fontSize: 40,
+      color: '#000',
+      marginTop: 140,
     },
     backButton: {
       backgroundColor: themeColors.yellow,
@@ -46,7 +52,6 @@ export default function LoginScreen() {
       flex: 1,
       backgroundColor: '#252525',
       padding: 20,
-      paddingTop: 20,
     },
     formContainer: {
       spaceY: 2,
@@ -56,22 +61,27 @@ export default function LoginScreen() {
       backgroundColor: themeColors.gray100,
       color: themeColors.gray700,
       borderRadius: 20,
-      marginBottom: 3,
+      marginBottom: 20,
     },
     forgotPasswordText: {
       color: themeColors.gray700,
       marginBottom: 5,
+      color: '#B7B7B7'
     },
     loginButton: {
-      backgroundColor: themeColors.yellow,
+      background: `linear-gradient(45deg, ${themeColors.yellow}, #53e88b)`,
       borderRadius: 20,
       paddingVertical: 10,
+    },
+    inputLabel: {
+      color: themeColors.gray700,
+      color: '#B7B7B7'
     },
     loginButtonText: {
       fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'center',
-      color: themeColors.gray700,
+      color: '#fff',
     },
     orText: {
       fontSize: 20,
@@ -98,6 +108,7 @@ export default function LoginScreen() {
     createAccountText: {
       color: themeColors.gray500,
       fontWeight: 'bold',
+      color: '#B7B7B7'
     },
     signUpLink: {
       color: themeColors.yellow,
@@ -119,22 +130,29 @@ export default function LoginScreen() {
     <LinearGradient colors={['#877dfa', '#53e88b']} style={styles.linearGradient}>
     <View style={styles.container}>
       <SafeAreaView style={styles.safeAreaView}>
-        <View style={styles.headerImageContainer}>
-          <Image source={require('../../assets/dubbio-black.png')} style={styles.headerImage}  />
-        </View>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>DUBBIO</Text>
+          </View>
       </SafeAreaView>
       <View style={styles.mainContainer}>
         <View style={styles.formContainer}>
-          <Text style={styles.input}>E-mail</Text>
+          <Text style={styles.inputLabel}>e-mail</Text>
           <TextInput style={styles.input} placeholder="email" value="fulano@gmail.com" />
-          <Text style={styles.input}>Password</Text>
+          <Text style={styles.inputLabel}>senha</Text>
           <TextInput style={styles.input} secureTextEntry placeholder="password" value="fulano12345" />
           <TouchableOpacity style={styles.forgotPasswordText}>
             <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>ENTRAR</Text>
-          </TouchableOpacity>
+          <LinearGradient
+              colors={['#877dfa', '#0380CC']}
+              style={styles.loginButton}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <TouchableOpacity onPress={handleLogin}>
+                <Text style={styles.loginButtonText}>ENTRAR</Text>
+              </TouchableOpacity>
+            </LinearGradient>
         </View>
         <Text style={styles.orText}>Ou</Text>
         <View style={styles.socialButtonsContainer}>

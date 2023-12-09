@@ -1,28 +1,93 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeftIcon } from 'react-native-heroicons/solid';
-import { useNavigation } from '@react-navigation/native';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { themeColors } from '../../theme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LinearGradient } from 'expo-linear-gradient';
 
-const TeacherDetailsScreen = ({ route }) => {
+const TeacherDetailsScreen = ({ navigation, route }) => {
   const { teacher } = route.params;
+  const [activeTab, setActiveTab] = useState('Feed');
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'Feed':
+        return <Text>Conteúdo do Feed</Text>; // Substitua com o componente real do Feed
+      case 'Agenda':
+        return <Text>Conteúdo da Agenda</Text>; // Substitua com o componente real da Agenda
+      case 'Avaliacoes':
+        return <Text>Conteúdo das Avaliações</Text>; // Substitua com o componente real das Avaliações
+      default:
+        return null;
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backButton}>{'<'}</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerText}>Detalhes do Professor</Text>
-      </View>
+      <View style={styles.contentContainer}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color="#fff" />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>Detalhes do Professor</Text>
+        </View>
 
-      <View style={styles.teacherDetailsContainer}>
-        <Image source={teacher.image} style={styles.teacherDetailsImage} />
-        <Text style={styles.teacherDetailsName}>{teacher.name}</Text>
-        <Text style={styles.teacherDetailsRole}>{teacher.role}</Text>
+        <View style={styles.teacherDetailsContainer}>
+          <Image source={teacher.image} style={styles.teacherDetailsImage} />
+          <Text style={styles.teacherDetailsName}>{teacher.name}</Text>
+
+          <View style={styles.starContainer}>
+            <Ionicons name="md-star" size={20} color={themeColors.purple} />
+            <Ionicons name="md-star" size={20} color={themeColors.purple} />
+            <Ionicons name="md-star" size={20} color={themeColors.purple} />
+            <Ionicons name="md-star" size={20} color={themeColors.purple} />
+            <Ionicons name="md-star" size={20} color={themeColors.gray700} />
+          </View>
+
+          <View style={styles.verifiedContainer}>
+            <MaterialIcons name="verified" size={24} color="#46A3EB"/>
+            <Text style={styles.verifiedText}>Usuário verificado</Text>
+          </View>
+
+          <View style={styles.statsContainer}>
+            <View style={styles.statItem}>
+              <Text style={styles.statLabel}>Posts</Text>
+              <Text style={styles.statValue}>3</Text>
+            </View>
+            <View style={styles.statItem}>
+              <Text style={styles.statLabel}>Seguidores</Text>
+              <Text style={styles.statValue}>1M</Text>
+            </View>
+            <View style={styles.statItem}>
+              <Text style={styles.statLabel}>Seguindo</Text>
+              <Text style={styles.statValue}>323</Text>
+            </View>
+          </View>
+
+          {/* Adiciona as abas com borda branca */}
+          <View style={styles.tabsContainer}>
+            <TouchableOpacity
+              style={[styles.tabItem, activeTab === 'Feed' && styles.activeTab]}
+              onPress={() => setActiveTab('Feed')}
+            >
+              <Text style={styles.tabLabel}>Feed</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.tabItem, activeTab === 'Agenda' && styles.activeTab]}
+              onPress={() => setActiveTab('Agenda')}
+            >
+              <Text style={styles.tabLabel}>Agenda</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.tabItem, activeTab === 'Avaliacoes' && styles.activeTab]}
+              onPress={() => setActiveTab('Avaliacoes')}
+            >
+              <Text style={styles.tabLabel}>Avaliações</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Renderiza o conteúdo da aba selecionada */}
+          {renderContent()}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -31,69 +96,38 @@ const TeacherDetailsScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#181818',
+  },
+  contentContainer: {
+    flex: 1,
   },
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: themeColors.gray300,
+    borderBottomColor: '#fff',
+    width: '100%',
   },
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 20,
   },
-  menuIcon: {
-    fontSize: 20,
-  },
-  adContainer: {
-    padding: 10,
-    marginRight: 10,
-    borderRadius: 10,
-    backgroundColor: themeColors.gray100,
-  },
-  adImage: {
-    width: 239,
-    height: 181,
-    borderRadius: 10,
-  },
-  adTitle: {
-    marginTop: 5,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  teacherContainer: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: themeColors.gray300,
-  },
-  teacherImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  teacherName: {
-    fontWeight: 'bold',
-    marginTop: 5,
-  },
-  teacherRole: {
-    marginTop: 3,
-  },
-  logoutButton: {
-    backgroundColor: themeColors.yellow,
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
+  starContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 10,
   },
-  logoutButtonText: {
-    color: themeColors.gray700,
-    fontWeight: 'bold',
+  verifiedContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
   },
-  backButton: {
-    fontSize: 20,
-    color: themeColors.gray700,
-    marginRight: 10,
+  verifiedText: {
+    marginLeft: 5,
+    color: themeColors.gray100,
   },
   teacherDetailsContainer: {
     alignItems: 'center',
@@ -108,12 +142,46 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     fontSize: 18,
+    color: themeColors.gray100,
   },
-  teacherDetailsRole: {
-    marginTop: 5,
-    fontSize: 16,
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+  },
+  statItem: {
+    alignItems: 'center',
+  },
+  statLabel: {
+    color: themeColors.gray100,
+  },
+  statValue: {
+    fontWeight: 'bold',
+    color: themeColors.purple,
+  },
+  tabsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
+  },
+  tabItem: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  tabLabel: {
+    color: '#fff',
+  },
+  activeTab: {
+    borderBottomWidth: 2, // Adiciona uma linha branca na parte inferior da aba ativa
+    borderBottomColor: themeColors.purple, // Cor da linha branca
   },
 });
-
 
 export default TeacherDetailsScreen;
