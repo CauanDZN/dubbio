@@ -11,11 +11,11 @@ const TeacherDetailsScreen = ({ navigation, route }) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'Feed':
-        return <Text>Conteúdo do Feed</Text>; // Substitua com o componente real do Feed
+        return <Text style={{ color: '#fff' }}>Conteúdo do Feed</Text>;
       case 'Agenda':
-        return <Text>Conteúdo da Agenda</Text>; // Substitua com o componente real da Agenda
+        return <Text style={{ color: '#fff' }}>Conteúdo da Agenda</Text>;
       case 'Avaliacoes':
-        return <Text>Conteúdo das Avaliações</Text>; // Substitua com o componente real das Avaliações
+        return <Text style={{ color: '#fff' }}>Conteúdo das Avaliações</Text>;
       default:
         return null;
     }
